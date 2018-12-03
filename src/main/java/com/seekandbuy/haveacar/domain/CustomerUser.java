@@ -12,13 +12,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @Entity
-@Table(name="CandidateUser")
-public class CandidateUser extends User {
+@Table(name="CustomerUser")
+public class CustomerUser extends User {
 
 	@JsonInclude(Include.NON_NULL)
 	@Cascade(CascadeType.PERSIST)
 	@ManyToOne
-	private JobCharacteristic jobCharacteristic;
+	private CarCharacteristic carCharacteristic;
 	
 	@JsonInclude(Include.NON_NULL)
 	@Cascade(CascadeType.PERSIST)
@@ -33,12 +33,12 @@ public class CandidateUser extends User {
 		this.cpf = cpf;
 	}
 
-	public JobCharacteristic getJobCharacteristic() {
-		return jobCharacteristic;
+	public CarCharacteristic getCarCharacteristic() {
+		return carCharacteristic;
 	}
 	
-	public void setJobCharacteristic(JobCharacteristic jobCharacteristic) {
-		this.jobCharacteristic = jobCharacteristic;
+	public void setCarCharacteristic(CarCharacteristic carCharacteristic) {
+		this.carCharacteristic = carCharacteristic;
 	}
 	
 }

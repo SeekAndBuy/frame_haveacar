@@ -16,33 +16,33 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.seekandbuy.haveacar.domain.EmployerUser;
+import com.seekandbuy.haveacar.domain.SalesmanUser;
 import com.seekandbuy.haveacar.domain.User;
 import com.seekandbuy.haveacar.exceptions.UserNotFoundException;
-import com.seekandbuy.haveacar.services.EmployerUserService;
+import com.seekandbuy.haveacar.services.SalesmanUserService;
 
 @RestController
 @RequestMapping("/employers")
 @CrossOrigin(origins="http://localhost:4200")
-public class UserEmployerResources implements GenericResources<EmployerUser> {
+public class UserSalesmanResources implements GenericResources<SalesmanUser> {
 	
 	@Autowired
-	private EmployerUserService userService;
+	private SalesmanUserService userService;
 	
-	public UserEmployerResources(EmployerUserService userService) 
+	public UserSalesmanResources(SalesmanUserService userService) 
 	{
 		this.userService = userService;
 	}
 
 	@Override
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<EmployerUser>> listItem() {
+	public ResponseEntity<List<SalesmanUser>> listItem() {
 		return ResponseEntity.status(HttpStatus.OK).body(userService.listItem());
 	}
 
 	@Override
 	@RequestMapping(method = RequestMethod.POST)	
-	public ResponseEntity<Void> createItem(@RequestBody EmployerUser user) {
+	public ResponseEntity<Void> createItem(@RequestBody SalesmanUser user) {
 		boolean createProduct = userService.createItem(user);
 		
 		if(!createProduct)
@@ -55,8 +55,8 @@ public class UserEmployerResources implements GenericResources<EmployerUser> {
 
 	@Override
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Optional<EmployerUser>> findItem(@PathVariable("id") Long id) {
-		Optional<EmployerUser> user = null;
+	public ResponseEntity<Optional<SalesmanUser>> findItem(@PathVariable("id") Long id) {
+		Optional<SalesmanUser> user = null;
 		try
 		{
 			user = userService.findItem(id);
@@ -85,7 +85,7 @@ public class UserEmployerResources implements GenericResources<EmployerUser> {
 
 	@Override
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> updateItem(@RequestBody EmployerUser user, @PathVariable("id") Long id) {
+	public ResponseEntity<Void> updateItem(@RequestBody SalesmanUser user, @PathVariable("id") Long id) {
 		user.setId(id); // Garantir que o que vai ser atualizado é o que está vindo na URI
 		try
 		{

@@ -1,20 +1,18 @@
 package com.seekandbuy.haveacar.dao;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import com.seekandbuy.haveacar.domain.Job;
-import com.seekandbuy.haveacar.domain.Product;
+import com.seekandbuy.haveacar.domain.CustomerUser;
 
 @CrossOrigin(origins="http://localhost:4200")
 @Repository
-public interface JobDao extends GenericDao, JpaRepository<Job, Long>
-{
-	@Query("SELECT p FROM Job p WHERE USERID(p.Id) = USERID(:userId)")
-	public List<Job> getJobByEmployerId(@Param("userId") Long id);
+public interface CustomerUserDao extends GenericDao, JpaRepository<CustomerUser, Long>{
+
+	@Query("SELECT u FROM CustomerUser u WHERE u.email = :userEmail")
+	public CustomerUser findUserByEmail(@Param("userEmail") String email);
+	
 }

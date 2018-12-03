@@ -18,25 +18,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.seekandbuy.haveacar.domain.CandidateUser;
-import com.seekandbuy.haveacar.domain.Job;
+import com.seekandbuy.haveacar.domain.CustomerUser;
+import com.seekandbuy.haveacar.domain.Car;
 import com.seekandbuy.haveacar.exceptions.ProductNotFoundException;
 import com.seekandbuy.haveacar.exceptions.UserNotFoundException;
-import com.seekandbuy.haveacar.services.CandidateUserService;
-import com.seekandbuy.haveacar.services.ProductJobService;
+import com.seekandbuy.haveacar.services.CustomerUserService;
+import com.seekandbuy.haveacar.services.ProductCarService;
 
 @RestController
 @RequestMapping("/jobs")
 @CrossOrigin(origins="http://localhost:4200")
-public class ProductJobResources implements GenericResources<Job>
+public class ProductCarResources implements GenericResources<Car>
 {
 	@Autowired
-	private ProductJobService productService;
+	private ProductCarService productService;
 	
 	@Autowired
-	private CandidateUserService userService;
+	private CustomerUserService userService;
 	
-	public ProductJobResources(ProductJobService productService, CandidateUserService userService) 
+	public ProductCarResources(ProductCarService productService, CustomerUserService userService) 
 	{
 		this.productService = productService;
 		this.userService = userService;
@@ -44,18 +44,17 @@ public class ProductJobResources implements GenericResources<Job>
 
 	@Override
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<Job>> listItem() {
+	public ResponseEntity<List<Car>> listItem() {
 		return ResponseEntity.status(HttpStatus.OK).body(productService.listItem());
 	}
 
 	@Override
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> createItem(@RequestBody Job product) {
+	public ResponseEntity<Void> createItem(@RequestBody Car product) {
 		boolean createProduct = productService.createItem(product);
 		
 		if(!createProduct)	
 		{
-			System.out.println("XXXXXXXXXXXXXXX");
 			return ResponseEntity.badRequest().build();
 		}
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
@@ -65,8 +64,8 @@ public class ProductJobResources implements GenericResources<Job>
 	}
 	
 	@RequestMapping(value = "/createandnotify/", method = RequestMethod.POST)
-	public ResponseEntity<Void>  createAndNotify(@RequestBody Job product){
-		List<CandidateUser> allUsers = null;	
+	public ResponseEntity<Void>  createAndNotify(@RequestBody Car product){
+		List<CustomerUser> allUsers = null;	
 		allUsers = userService.listItem();
 		
 		boolean createProduct = productService.createItemAndNotifyUser(product, allUsers);
@@ -82,17 +81,17 @@ public class ProductJobResources implements GenericResources<Job>
 
 	@Override
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Optional<Job>> findItem(@PathVariable("id") Long id) {
-		Optional<Job> job = null;
+	public ResponseEntity<Optional<Car>> findItem(@PathVariable("id") Long id) {
+		Optional<Car> car = null;
 		try
 		{
-			job = productService.findItem(id);
+			car = productService.findItem(id);
 		}catch(ProductNotFoundException e)
 		{
 			return ResponseEntity.notFound().build();
 		}
 
-		return ResponseEntity.status(HttpStatus.OK).body(job);
+		return ResponseEntity.status(HttpStatus.OK).body(car);
 	}
 
 	@Override
@@ -112,7 +111,7 @@ public class ProductJobResources implements GenericResources<Job>
 
 	@Override
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> updateItem(@RequestBody Job product, @PathVariable("id") Long id) {
+	public ResponseEntity<Void> updateItem(@RequestBody Car product, @PathVariable("id") Long id) {
 		product.setId(id); // Garantir que o que vai ser atualizado é o que está vindo na URI
 		try
 		{
@@ -127,36 +126,36 @@ public class ProductJobResources implements GenericResources<Job>
 	}
 
 	@RequestMapping(value = "/employer/{id}", method = RequestMethod.GET)
-	public ResponseEntity<List<Job>> getJobByEmployerId(@PathVariable("id") Long id){
-		List<Job> employerJobsOffered = null;
+	public ResponseEntity<List<Car>> getJobByEmployerId(@PathVariable("id") Long id){
+		List<Car> salesmanCarsOffered = null;
 		
 		try
 		{
-			employerJobsOffered = productService.getJobByEmployerId(id);
+			salesmanCarsOffered = productService.getCarBySalesmanId(id);
 		}
 		catch(UserNotFoundException e)
 		{
 			return ResponseEntity.notFound().build();
 		}
 
-		return ResponseEntity.status(HttpStatus.OK).body(employerJobsOffered);
+		return ResponseEntity.status(HttpStatus.OK).body(salesmanCarsOffered);
 	}
 	
 	@RequestMapping(value = "/bycharacteristics/{id}", method = RequestMethod.GET)
-	public ResponseEntity<List<Job>> findJobByCandidateCharacteristic(@PathVariable("id") Long id){
-		List<Job> productsByCharacteristic = null;
+	public ResponseEntity<List<Car>> findCarByCandidateCharacteristic(@PathVariable("id") Long id){
+		List<Car> productsByCharacteristic = null;
 		
-		List<Job> allJobs = null;
-		Optional<CandidateUser> candidate = null;		
+		List<Car> allCars = null;
+		Optional<CustomerUser> candidate = null;		
 		
 		try
 		{
 			candidate = userService.findItem(id);
-			CandidateUser user = (CandidateUser) candidate.get();
+			CustomerUser user = (CustomerUser) candidate.get();
 			
-			allJobs = productService.listItem();
+			allCars = productService.listItem();
 			
-			productsByCharacteristic = productService.listItemByUserCharacteristic(user, allJobs);
+			productsByCharacteristic = productService.listItemByUserCharacteristic(user, allCars);
 		}
 		catch(UserNotFoundException e)
 		{

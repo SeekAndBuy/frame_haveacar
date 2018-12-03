@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import com.seekandbuy.haveacar.dao.CandidateUserDao;
+import com.seekandbuy.haveacar.dao.CustomerUserDao;
 import com.seekandbuy.haveacar.domain.User;
 import com.seekandbuy.haveacar.exceptions.ProductNotFoundException;
 import com.seekandbuy.haveacar.exceptions.TokenNotFoundException;
 
 public class SavePassword {
-	private CandidateUserDao userDao;
+	private CustomerUserDao userDao;
 	private Map<String, Object> codification;
 	
 	public SavePassword(){

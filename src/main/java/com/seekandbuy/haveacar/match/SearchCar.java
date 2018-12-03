@@ -2,32 +2,32 @@ package com.seekandbuy.haveacar.match;
 
 import java.util.List;
 
-import com.seekandbuy.haveacar.domain.CandidateUser;
-import com.seekandbuy.haveacar.domain.Job;
-import com.seekandbuy.haveacar.domain.JobCharacteristic;
+import com.seekandbuy.haveacar.domain.CustomerUser;
+import com.seekandbuy.haveacar.domain.Car;
+import com.seekandbuy.haveacar.domain.CarCharacteristic;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class SearchJob extends SearchItems<CandidateUser, Job> {
+public class SearchCar extends SearchItems<CustomerUser, Car> {
 	
 	@Override
-	public List<Job> ListAllProductsByUser(CandidateUser user, List<Job> allJobs) {
+	public List<Car> ListAllProductsByUser(CustomerUser user, List<Car> allCars) {
 
-		JobCharacteristic characteristicUser = user.getJobCharacteristic();
+		CarCharacteristic characteristicUser = user.getCarCharacteristic();
 		
 		//classe para armazenar a tupla <product, quantidade de matchs>
 		class CharacteristicAndMatchs{
-			public Job job;
+			public Car car;
 			public int matchValue; 
 			
-			public CharacteristicAndMatchs(Job job, int matchValue) {
-				this.job = job;
+			public CharacteristicAndMatchs(Car car, int matchValue) {
+				this.car = car;
 				this.matchValue =matchValue;
 			}
-			public Job getJob() {
-				return this.job;
+			public Car getCar() {
+				return this.car;
 			}
 			
 			public int getMatchValue() {
@@ -35,14 +35,14 @@ public class SearchJob extends SearchItems<CandidateUser, Job> {
 			}
 		}
 		
-		class SortbyJob implements Comparator<Job> 
+		class SortbyCar implements Comparator<Car> 
 		{ 
 		    // Used for sorting in ascending order of 
 		    // roll number 
 			@Override
-			public int compare(Job j1, Job j2) {
+			public int compare(Car c1, Car c2) {
 				
-				double value = j1.getJobCharacteristic().getSalario() - j2.getJobCharacteristic().getSalario();
+				double value = c1.getCarCharacteristic().getSalario() - c2.getCarCharacteristic().getSalario();
 				
 				if(value < 0)
 					return 1;
@@ -54,13 +54,13 @@ public class SearchJob extends SearchItems<CandidateUser, Job> {
 		}
 		
 		List<CharacteristicAndMatchs> characteristicMatchs = new ArrayList<CharacteristicAndMatchs>();
-		List<Job> productsByUser = new ArrayList<Job>();
+		List<Car> productsByUser = new ArrayList<Car>();
 		
-		Collections.sort(allJobs, new SortbyJob());
+		Collections.sort(allCars, new SortbyCar());
 		
-		for(Job p: allJobs) {
+		for(Car p: allCars) {
 			
-			JobCharacteristic characteristicProduct = (JobCharacteristic) p.getJobCharacteristic();
+			CarCharacteristic characteristicProduct = (CarCharacteristic) p.getCarCharacteristic();
 			int matchSize = this.countMatchs(characteristicUser, characteristicProduct);		
 			
 			CharacteristicAndMatchs matchCharacter = new CharacteristicAndMatchs(p, matchSize);
@@ -72,7 +72,7 @@ public class SearchJob extends SearchItems<CandidateUser, Job> {
 		
 		for(CharacteristicAndMatchs c : characteristicMatchs) //armazenando apenas os produtos em productByUser
 		{
-			productsByUser.add(c.getJob());
+			productsByUser.add(c.getCar());
 		}
 		
 		
@@ -80,18 +80,18 @@ public class SearchJob extends SearchItems<CandidateUser, Job> {
 	}
 	
 	//Metodo auxiliar para contar os matchs das caracteristicas do produto com as do usuario
-	private int countMatchs(JobCharacteristic charaUser, JobCharacteristic charaJob) {
+	private int countMatchs(CarCharacteristic charaUser, CarCharacteristic charaCar) {
 		int equal = 0;
 		
-		if(charaUser.getEscolaridade().equals(charaJob.getEscolaridade()))
+		if(charaUser.getEscolaridade().equals(charaCar.getEscolaridade()))
 			equal += 2;
-		if(charaJob.getSalario() <= charaUser.getSalario())
+		if(charaCar.getSalario() <= charaUser.getSalario())
 			equal +=1;
-		if(charaUser.getArea().equals(charaJob.getArea()))
+		if(charaUser.getArea().equals(charaCar.getArea()))
 			equal += 3;
-		if(charaUser.getCargo().equals(charaJob.getCargo()))
+		if(charaUser.getCargo().equals(charaCar.getCargo()))
 			equal += 4;
-		if(charaUser.getIdioma().equals(charaJob.getIdioma()))
+		if(charaUser.getIdioma().equals(charaCar.getIdioma()))
 			equal += 1;
 		
 		return equal;

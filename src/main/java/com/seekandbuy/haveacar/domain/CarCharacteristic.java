@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @Entity
-public class JobCharacteristic extends Characteristic{
+public class CarCharacteristic extends Characteristic{
 	
 	@JsonInclude(Include.NON_NULL)
 	private String escolaridade;

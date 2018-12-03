@@ -8,36 +8,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.seekandbuy.haveacar.dao.EmployerUserDao;
-import com.seekandbuy.haveacar.domain.EmployerUser;
+import com.seekandbuy.haveacar.dao.SalesmanUserDao;
+import com.seekandbuy.haveacar.domain.SalesmanUser;
 import com.seekandbuy.haveacar.domain.User;
 import com.seekandbuy.haveacar.exceptions.UserNotFoundException;
-import com.seekandbuy.haveacar.validator.ValidatorEmployerUser;
+import com.seekandbuy.haveacar.validator.ValidatorSalesmanUser;
 
 @Service
-public class EmployerUserService extends GenericService<EmployerUser>
+public class SalesmanUserService extends GenericService<SalesmanUser>
 {	
 	@Autowired
-	private EmployerUserDao employerUserDao;
+	private SalesmanUserDao SalesmanUserDao;
 	
-	public EmployerUserService() {
-		super.validateItem = new ValidatorEmployerUser();
+	public SalesmanUserService() {
+		super.validateItem = new ValidatorSalesmanUser();
 	}
 	
 	@Override
-	public List<EmployerUser> listItem()
+	public List<SalesmanUser> listItem()
 	{	
-		return employerUserDao.findAll();  
+		return SalesmanUserDao.findAll();  
 	}
 	
 	@Override
-	public Optional<EmployerUser> findItem(Long id)
+	public Optional<SalesmanUser> findItem(Long id)
 	{
-		Optional<EmployerUser> user = employerUserDao.findById(id);
+		Optional<SalesmanUser> user = SalesmanUserDao.findById(id);
 		
 		if(user == null)
 		{
-			throw new UserNotFoundException("Employer can not be found");
+			throw new UserNotFoundException("Salesman can not be found");
 		}
 		
 		return user;
@@ -52,7 +52,7 @@ public class EmployerUserService extends GenericService<EmployerUser>
 	}
 		
 	@Override
-	public boolean createItem(EmployerUser user) 
+	public boolean createItem(SalesmanUser user) 
 	{	
 		user.setId(null);
 		
@@ -60,7 +60,7 @@ public class EmployerUserService extends GenericService<EmployerUser>
 			String password = user.getPassword();
 			String token = auth.tokenizerPassword(password);
 			user.setPassword(token);
-			employerUserDao.save(user);
+			SalesmanUserDao.save(user);
 			return true;
 		}
 		else {
@@ -73,24 +73,24 @@ public class EmployerUserService extends GenericService<EmployerUser>
 	{
 		try 
 		{
-			employerUserDao.deleteById(id);
+			SalesmanUserDao.deleteById(id);
 		}
 		catch(EmptyResultDataAccessException e)
 		{
-			throw new UserNotFoundException("Employer can not be found");
+			throw new UserNotFoundException("Salesman can not be found");
 		}
 	}
 	
 	@Override
-	public void updateItem(EmployerUser user)
+	public void updateItem(SalesmanUser user)
 	{
 		verifyExistence(user);
-		employerUserDao.save(user);
+		SalesmanUserDao.save(user);
 	}
 	
 	//Semântica melhor, só verifica existência 
 	@Override
-	public void verifyExistence(EmployerUser user)
+	public void verifyExistence(SalesmanUser user)
 	{
 		findItem(user.getId());
 	}	
@@ -110,11 +110,11 @@ public class EmployerUserService extends GenericService<EmployerUser>
 	{
 		User user;
 		
-		user = employerUserDao.findUserByEmail(email);
+		user = SalesmanUserDao.findUserByEmail(email);
 		
 		if(user == null)
 		{
-			throw new UserNotFoundException("Employer can not be found");
+			throw new UserNotFoundException("Salesman can not be found");
 		}		
 		return user;
 	}
