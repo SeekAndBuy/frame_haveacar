@@ -9,58 +9,49 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public class CarCharacteristic extends Characteristic{
 	
 	@JsonInclude(Include.NON_NULL)
-	private String escolaridade;
+	private String brand;
 		
 	@JsonInclude(Include.NON_NULL)
-	private double salario;
+	private String carModel;
 	
 	@JsonInclude(Include.NON_NULL)
-	private  String area;
+	private  String year;
 	
 	@JsonInclude(Include.NON_NULL)
-	private  String idioma;
+	private  Float price;
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+
+	public String getCarModel() {
+		return carModel;
+	}
+
+	public void setCarModel(String carModel) {
+		this.carModel = carModel;
+	}
+
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
+	public Float getPrice() {
+		return price;
+	}
+
+	public void setPrice(Float price) {
+		this.price = price;
+	}
 	
-	@JsonInclude(Include.NON_NULL)
-	private  String cargo;
 	
-	public String getCargo() {
-		return cargo;
-	}
-
-	public void setCargo(String cargo) {
-		this.cargo = cargo;
-	}
-
-	public String getArea() {
-		return area;
-	}
-
-	public void setArea(String area) {
-		this.area = area;
-	}
-
-	public String getIdioma() {
-		return idioma;
-	}
-
-	public void setIdioma(String idioma) {
-		this.idioma = idioma;
-	}
-
-	public String getEscolaridade() {
-		return escolaridade;
-	}
-
-	public void setEscolaridade(String escolaridade) {
-		this.escolaridade = escolaridade;
-	}
-
-	public double getSalario() {
-		return salario;
-	}
-
-	public void setSalario(double salario) {
-		this.salario = salario;
-	}
 	
 }

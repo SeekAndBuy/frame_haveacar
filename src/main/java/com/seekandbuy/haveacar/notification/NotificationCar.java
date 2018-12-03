@@ -10,7 +10,7 @@ public class NotificationCar extends Notification<CustomerUser, Car>{
 
 	@Override
 	public void sendNotification(Car product, List<CustomerUser> listOfUsers) {
-		int whenNotification = 4;
+		int whenNotification = 3;
 		CarCharacteristic carCharacteristic = product.getCarCharacteristic();
 		
 		for(CustomerUser u: listOfUsers) {
@@ -26,14 +26,12 @@ public class NotificationCar extends Notification<CustomerUser, Car>{
 	private int countMatchs(CarCharacteristic charaUser, CarCharacteristic charaCar) {
 		int equal = 0;
 		
-		if(charaUser.getEscolaridade().equals(charaCar.getEscolaridade()))
-			equal += 1;
-		if(charaUser.getArea().equals(charaCar.getArea()))
-			equal += 1;
-		if(charaUser.getCargo().equals(charaCar.getCargo()))
-			equal += 1;
-		if(charaUser.getIdioma().equals(charaCar.getIdioma()))
-			equal += 1;
+		if(charaUser.getBrand().equals(charaCar.getBrand()))
+			equal ++;
+		if(charaUser.getYear().equals(charaCar.getYear()))
+			equal ++;
+		if(charaUser.getCarModel().equals(charaCar.getCarModel()))
+			equal ++;
 		
 		return equal;
 	}

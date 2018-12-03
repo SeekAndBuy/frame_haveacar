@@ -42,7 +42,7 @@ public class SearchCar extends SearchItems<CustomerUser, Car> {
 			@Override
 			public int compare(Car c1, Car c2) {
 				
-				double value = c1.getCarCharacteristic().getSalario() - c2.getCarCharacteristic().getSalario();
+				double value = c1.getCarCharacteristic().getPrice() - c2.getCarCharacteristic().getPrice();
 				
 				if(value < 0)
 					return 1;
@@ -83,16 +83,13 @@ public class SearchCar extends SearchItems<CustomerUser, Car> {
 	private int countMatchs(CarCharacteristic charaUser, CarCharacteristic charaCar) {
 		int equal = 0;
 		
-		if(charaUser.getEscolaridade().equals(charaCar.getEscolaridade()))
-			equal += 2;
-		if(charaCar.getSalario() <= charaUser.getSalario())
-			equal +=1;
-		if(charaUser.getArea().equals(charaCar.getArea()))
+		if(charaUser.getBrand().equals(charaCar.getBrand()))
 			equal += 3;
-		if(charaUser.getCargo().equals(charaCar.getCargo()))
-			equal += 4;
-		if(charaUser.getIdioma().equals(charaCar.getIdioma()))
-			equal += 1;
+
+		if(charaUser.getYear().equals(charaCar.getYear()))
+			equal ++;
+		if(charaUser.getCarModel().equals(charaCar.getCarModel()))
+			equal += 2;
 		
 		return equal;
 	}
